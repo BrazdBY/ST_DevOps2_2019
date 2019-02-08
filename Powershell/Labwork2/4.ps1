@@ -6,7 +6,14 @@ Get-Service  | where {$_.Status -like "Running" } | Out-File  -FilePath "x:\serv
 
 #Просмотреть содержимое диска. Вывести содержимое файла в консоль PS.
 
-Get-PSDrive -Name x | Get-ChildItem .
+Get-PSDrive -Name x 
+cd x:
+Get-ChildItem .
+$a = Get-Content "x:\services.txt"
+	foreach ($i in $a)
+	{$i}
+
+
 
 
 
