@@ -2,5 +2,5 @@
 
 Get-PSDrive HKLM 
 cd HKLM:\SOFTWARE\Microsoft
-Get-ChildItem .  | Select-Object -property Name | Export-Csv -path c:\temp\test.csv - # выводим содержимое корня древа
+Get-ChildItem .  | Select-Object -property Name | Export-Csv -path C:\M2T2_Pogulaev\test.csv - # выводим содержимое корня древа
 
