@@ -1,0 +1,2 @@
+#6.	Вывести список из 6 процессов занимающих дольше всего процессор.
+Get-Process | Sort-object -Property TotalProcessorTime -Descending  | Select-Object -first 6 | Format-Table  -Property ProcessName, TotalProcessorTime
