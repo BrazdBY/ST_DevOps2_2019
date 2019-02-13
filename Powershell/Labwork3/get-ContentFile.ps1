@@ -21,15 +21,15 @@ Function Get-ContentFile {
     
     param (
         [PARAMETER(Mandatory=$false, Position=0)][ValidateScript({Test-Path $_ })][String]$Path=($env:HOMEDRIVE + $env:HOMEPATH),
-        [PARAMETER(Mandatory=$true,Position=1)][ValidateNotNullOrEmpty()][String]$FileName="services.txt"
+        [PARAMETER(Mandatory=$false,Position=1)][ValidateNotNullOrEmpty()][String]$FileName="services.txt"
         
         )
         
    
 
-    if  ($Path -isnot $null) 
+    if  ($Path) 
     {
-        $File = ($Path + "\\" + $FileName)
+        $File = ($Path + "\" + $FileName)
         
     } else {
         $File = $FileName
@@ -40,4 +40,4 @@ Function Get-ContentFile {
     Get-Content -Path $File
 }
 
-Get-ProcessLocal 
+Get-ContentFile -file services.txt
