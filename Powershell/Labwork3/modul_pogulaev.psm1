@@ -128,9 +128,41 @@ catch {
 
 
 <#
-##########################################################################################################################
+######################################1.2####################################################################################
 #>
+
+Function Get-GetListOfFiles {
+
+#1.2.	Просуммировать все числовые значения переменных среды Windows. (Параметры не нужны)
+
+[CmdletBinding(DefaultParameterSetName="All")] #использовать набор по-умолчанию. Если несуществующий, то будет работать без параметров даже если есть обязательные в других наборах.
+
+<#
+.SYNOPSIS
+    Просуммировать все числовые значения переменных текущего сеанса.
+.DESCRIPTION
+    Данная функция позволяет посчитать сумму всех числовых переменных текущего сеанса.
+.EXAMPLE
+    #Get-GetListOfFiles   Данная команда выведет  сумму числовых переменных. 
+
+#>
+
+param (
+
+)
+
+[int]$SummValue = 0
+Get-Variable | where {$_.Value -ne $null} | ForEach-Object { if ( (($_.value).GetType().FullName -eq "System.Int32") -or (($_.value).GetType().FullName -eq "System.Int64")) {$SummValue = $SummValue + $_.value}}
+
+"Сумма всех числовых переменных равна: " + $SummValue
+}
+
+<#
+#####################################################################################################################################################
+#>
+
 
 Export-ModuleMember -Function Get-ProcessLocal
 Export-ModuleMember -Function Get-ContentFile
 Export-ModuleMember -Function Get-ListOfFiles
+Export-ModuleMember -Function Get-GetListOfFiles
