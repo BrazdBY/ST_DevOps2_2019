@@ -6,13 +6,16 @@ Function Get-ProcessLocal {
     <#
     .SYNOPSIS
         Сохранить в текстовый файл на диске список запущенных(!) служб.
+
     .DESCRIPTION
         Данная функция cохраняет в текстовый файл список запущенных(!) служб
+
     .EXAMPLE
         #Get-ProcessLocal -Path C:\temp -fileName servises.txt  Данная команда сохранит в файле  C:\temp\services.txt  список запущенных(!) служб.
     
     .PARAMETER Path
         Путь к файлу, в который необходимо произвести сохранение. 
+
     .PARAMETER FileName
         Имя файла для сохранения (обязательный параметр)
     
@@ -26,7 +29,7 @@ Function Get-ProcessLocal {
         
    
 
-$File = $Path + "\\" + $FileName
+$File = $Path + "\" + $FileName
 
 try {
     Get-Service  | where {$_.Status -like "Running" } | Out-File  -FilePath $File    
