@@ -5,16 +5,17 @@ Function Get-ContentFile {
     [CmdletBinding()]
     <#
     .SYNOPSIS
-        Сохранить в текстовый файл на созданном диске список запущенных(!) служб .
+        Вывести содержимое файла в консоль .
     .DESCRIPTION
-        Данная функция выводит Сохраняет в текстовый файл на созданном диске список запущенных(!) служб
+        Данная функция выводит текстовый файл в консоль
     .EXAMPLE
-        #Get-ProcessLocal -Path C:\temp -fileName servises.txt  Данная команда сохранит в файле  C:\temp\services.txt  список запущенных(!) служб.
+        #Get-ContentFile -Path C:\temp -fileName servises.txt  Данная команда выведет в консоль содержимое файла  C:\temp\services.txt  
     
     .PARAMETER Path
-        Строка, которую необходимо вывести (обязательный параметр)
+         Путь к файлу (не обязательный параметр)
+
     .PARAMETER FileName
-        Имя файла для сохранения (обязательный параметр)
+        Имя файла для вывода (обязательный параметр)
     
     #>
     
@@ -26,12 +27,16 @@ Function Get-ContentFile {
         
    
 
-$File = $Path + "\\" + $FileName
-Get-Service  | where {$_.Status -like "Running" } | Out-File  -FilePath $File
+    if  ($Path -isnot $null) 
+    {
+        $File = ($Path + "\\" + $FileName)
+        
+    } else {
+        $File = $FileName
+    }
 
-#Просмотреть содержимое диска. Вывести содержимое файла в консоль PS.
+#Вывести содержимое файла в консоль PS.
 
-Get-ChildItem -Path $Path
 $a = Get-Content -Path $File
 	foreach ($i in $a)
 	{$i}
