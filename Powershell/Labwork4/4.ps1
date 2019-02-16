@@ -1,12 +1,12 @@
-﻿#Вывести информацию о биосе 
-Get-WmiObject -Class Win32_Bios | Format-List -Property
-
-#Вывести информацию о наше об операционной системе
+﻿#Вывести информацию об операционной системе
 
 #About operation system
-Get-WmiObject -List *OperatingSystem*
+#Get-WmiObject -List *OperatingSystem*
 
-Get-WmiObject -class Win32_OperatingSystem | format-list -property *
+#Get-WmiObject -class Win32_OperatingSystem | format-list -property *
+
+Get-WmiObject -class Win32_OperatingSystem | Select-Object Caption, BuildNumber, MUILanguages, PSComputerName, Status, `
+             FreeSpaceInPagingFiles, FreeVirtualMemory, CSName, NumberOfUsers, OSArchitecture
 
 
 
