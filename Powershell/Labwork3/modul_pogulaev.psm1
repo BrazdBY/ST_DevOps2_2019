@@ -76,11 +76,11 @@ Function Get-ContentFile {
         $File = $FileName
     }
 
-#Вывести содержимое файла в консоль PS.
+    #Вывести содержимое файла в консоль PS.
 
-$a = Get-Content -Path $File
-	foreach ($i in $a)
-	{$i}
+    $a = Get-Content -Path $File
+        foreach ($i in $a)
+        {$i}
 }
 
 <#

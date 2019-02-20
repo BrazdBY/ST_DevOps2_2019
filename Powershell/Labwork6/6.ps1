@@ -24,12 +24,14 @@ function Check-IpAddresses
     ) 
 
     function Get-typeOfMask {
+
+
         param (
             [string]$Mask
         )
         $result ="empty"
 
-        if ( $mask -match "[0-9]{1,3}\.{1,3}\.[0-9]{1,3}") {
+        if ( $mask -match "^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$") {
             
             Write-Output ("Mask is long")
                $result = "long"
@@ -46,7 +48,6 @@ function Check-IpAddresses
             } catch {
                $result = "wrong" 
             }
-                      
                        
         }        
         Write-Output ("Type of mask is - $($result)")
@@ -54,16 +55,28 @@ function Check-IpAddresses
     }
        
     function Convert-CidrToIPMask {
-        param (
-            [parameter(Mandatory=$true)]
-            [ValidateRange(1,32)]
-            [int]$CIDRmask
-        )
-        
-            $StandartMask = 32 - $CIDRmask
+        <# 
+            .SYNOPSIS  
+                Перевести маску CIDR к обычной маске.
 
-        return [string]$IpMask   
+            .EXAMPLE 
+                #Convert-CidrToIPMask -MaskBits 24 
+    
+        #> 
+        
+        param(
+            [parameter(Mandatory=$true)]
+            [ValidateRange(0,32)]
+            [Int] $MaskBits
+        )
+
+        $mask = ([Math]::Pow(2, $MaskBits) - 1) * [Math]::Pow(2, (32 - $MaskBits))
+        
+        $bytes = [BitConverter]::GetBytes([UInt32] $mask)
+        (($bytes.Count - 1)..0 | ForEach-Object { [String] $bytes[$_] }) -join "."
+        
     }
+    
       
 
     function Get-IpNetwork {
@@ -79,9 +92,15 @@ function Check-IpAddresses
     ############# solvation ###################################
 
     if ( (Get-typeOfMask -mask $mask) -eq "CIDR") {
-       $mask = Convert-CidrToIPMask  $mask
+       try {
+        $mask = Convert-CidrToIPMask  $mask
+       }
+       catch {
+           return Write-Output ("Wrong mask. Please, Let's check it")
+       }
+        
     } elseif ((Get-typeOfMask $mask) -eq "wrong") {
-        $result = "Wrong mask. Please, Lets check it"
+        $result = "Wrong mask. Please, Let's check it"
         return $result
     }
     
@@ -96,6 +115,8 @@ function Check-IpAddresses
     
     return $result
 
+    
 }
 
-Check-IpAddresses -ip1 "192.168.0.1" -ip2 "192.168.3.3" -mask "255.255.255.0"
+
+Check-IpAddresses -ip1 "192.168.0.1" -ip2 "192.168.3.3" -mask "255.255.0.0"
